@@ -30,7 +30,7 @@ public class UsersService implements IUsersService, UserDetailsService{
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		Users users = userDao.findByuserName2(username);
+		Users users = userDao.findByuserName(username);
 		
 		if(users == null) {
 			logger.error("Login error: user not found '" + username + "' in the system!");
@@ -43,7 +43,11 @@ public class UsersService implements IUsersService, UserDetailsService{
 				.peek(authority -> logger.info("Role: " + authority.getAuthority()))
 				.collect(Collectors.toList());
 		
+		logger.info("Role: " + authorities);
+		
 		User user = new User(users.getFirstName(), users.getPassword(), users.getEnabled(), true, true, true, authorities);
+		
+		logger.info("user: " + user.toString());
 		
 		return user;
 	}
@@ -51,7 +55,7 @@ public class UsersService implements IUsersService, UserDetailsService{
 	@Override
 	@Transactional(readOnly=true)
 	public Users findByuserName(String userName) {
-		return userDao.findByuserName2(userName);
+		return userDao.findByuserName(userName);
 	}
 
 }

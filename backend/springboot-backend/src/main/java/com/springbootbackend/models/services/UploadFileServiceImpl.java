@@ -54,6 +54,8 @@ public class UploadFileServiceImpl implements IUploadfileService {
 		log.info(filePath.toString());
 
 		Files.copy(file.getInputStream(), filePath);
+		
+		log.info(fileName);
 
 		return fileName;
 	}
@@ -61,7 +63,9 @@ public class UploadFileServiceImpl implements IUploadfileService {
 	@Override
 	public boolean deleteImage(String fileName) {
 		
-		if (fileName != null && fileName.length() > 40) {
+		if (fileName != null && fileName.length() > 0) {
+			
+			log.info("Hi");
 			
 			Path lastFilePath = getPath(fileName);
 			
